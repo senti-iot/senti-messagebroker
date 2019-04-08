@@ -4,6 +4,9 @@ const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 const app = express()
+const mqttHandler = require('./mqtt/receiveData')
+const receiveData = new mqttHandler('senti-messagebroker')
+receiveData.connect()
 
 // API endpoint imports
 // const indexRouter = require('./api/index')
@@ -20,6 +23,7 @@ app.use(helmet())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+
 app.use(cors())
 
 // app.use('/', indexRouter)
@@ -30,6 +34,7 @@ app.use(cors())
 // app.use('/template', templateRouter)
 app.use('/sigfox', sigfoxRouter)
 //---Start the express server---------------------------------------------------
+
 
 const startAPIServer = () => {
 	app.listen(port, () => {
@@ -44,3 +49,8 @@ const startAPIServer = () => {
 }
 
 startAPIServer()
+
+//#region MQTT
+
+
+//#endregion
