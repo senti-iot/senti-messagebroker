@@ -8,7 +8,7 @@ Documentation=https://github.com/senti-iot/senti-messagebroker/blob/master/READM
 WorkingDirectory=/srv/nodejs/senti/services/messagebroker/production
 ExecStart=/usr/bin/node server.js
 Environment=NODE_PORT=3003
-Environment=NODE_ENV=development
+Environment=NODE_ENV=production
 Type=simple
 Restart=always
 # RestartSec=1
