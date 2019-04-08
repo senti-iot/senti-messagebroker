@@ -59,3 +59,10 @@ typings/
 
 # next.js build output
 .next
+
+# vscode settings
+.vscode
+launch.json
+
+# .DS_Store
+.DS_Store
