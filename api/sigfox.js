@@ -17,7 +17,7 @@ dataBrokerChannel.connect()
 // dataBrokerChannel.connect();
 
 /* get template */
-router.get('/mb', async (req,res, netxt)=> {
+router.get('//mb', async (req,res, netxt)=> {
 	res.json('API/MessageBroker /messagebroker GET Success!')
 })
 router.get('/:version/', async (req, res, next) => {
