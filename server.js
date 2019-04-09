@@ -32,7 +32,7 @@ app.use(cors())
 // app.use('/annual', annualRouter)
 // app.use('/apiversion', apiVersionRouter)
 // app.use('/template', templateRouter)
-app.use('/sigfox', sigfoxRouter)
+app.use('/', sigfoxRouter)
 //---Start the express server---------------------------------------------------
 
 
