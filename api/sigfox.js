@@ -58,7 +58,7 @@ router.post('/:version', async (req, res, next) => {
 		res.send(`API/sigfox version: ${apiVersion} not supported`)
 	}
 })
-router.get('/', async (req,res, netxt)=> {
-	res.json('API/MessageBroker GET Success!')
-})
+// router.get('/', async (req,res, netxt)=> {
+// 	res.json('API/MessageBroker GET Success!')
+// })
 module.exports = router
