@@ -17,8 +17,15 @@ dataBrokerChannel.connect()
 // dataBrokerChannel.connect();
 
 /* get template */
+router.get('/', async (req,res, netxt)=> {
+	res.json('API/MessageBroker GET Success!')
+})
+router.get('/messagebroker', async (req,res, netxt)=> {
+	res.json('API/MessageBroker /messagebroker GET Success!')
+})
 router.get('/:version/', async (req, res, next) => {
 	let apiVersion = req.params.version
+
 	let authToken = req.headers.auth
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
