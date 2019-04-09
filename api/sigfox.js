@@ -17,12 +17,6 @@ dataBrokerChannel.connect()
 // dataBrokerChannel.connect();
 
 /* get template */
-router.get('/mb', async (req,res, next) => {
-	res.json('/mb GET Success!')
-})
-router.get('//mb', async (req,res, next)=> {
-	res.json('//mb GET Success!')
-})
 router.get('/:version/', async (req, res, next) => {
 	let apiVersion = req.params.version
 
@@ -61,7 +55,7 @@ router.post('/:version', async (req, res, next) => {
 		res.send(`API/sigfox version: ${apiVersion} not supported`)
 	}
 })
-// router.get('/', async (req,res, netxt)=> {
-// 	res.json('API/MessageBroker GET Success!')
-// })
+router.get('/', async (req,res, netxt)=> {
+	res.json('API/MessageBroker GET Success!')
+})
 module.exports = router
