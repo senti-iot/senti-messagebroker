@@ -15,7 +15,7 @@ receiveData.connect()
 // const annualRouter = require('./api/annual')
 // const apiVersionRouter = require('./api/apiversion')
 // const templateRouter = require('./api/template')
-const sigfoxRouter = require('./api/sigfox')
+const httpBridge = require('./api/httpBridge')
 
 const port = process.env.NODE_PORT || 3001
 
@@ -32,7 +32,7 @@ app.use(cors())
 // app.use('/annual', annualRouter)
 // app.use('/apiversion', apiVersionRouter)
 // app.use('/template', templateRouter)
-app.use('/', sigfoxRouter)
+app.use('/', httpBridge)
 //---Start the express server---------------------------------------------------
 
 
