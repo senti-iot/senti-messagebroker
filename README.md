@@ -1,2 +1,2 @@
-# senti-messagebroker
+# Senti Message Broker
 Senti Message Broker Service
