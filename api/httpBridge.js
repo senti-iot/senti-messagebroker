@@ -27,14 +27,14 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 	let apiVersion = req.params.version
 	let authToken = req.headers.auth
 	let data = req.body
-	console.log(req.url)
+	console.log(req.params)
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
 			// res.json('API/httpBridge POST Access Authenticated!')
 			console.log('API/httpBridge POST Access Authenticated!')
 
 			//Send the data to DataBroker
-			dataBrokerChannel.sendMessage(`${JSON.stringify(data)}`)
+			dataBrokerChannel.sendMessage(req.url,JSON.stringify({...data, ...req.params }))
 			res.status(200).json('sent')
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
