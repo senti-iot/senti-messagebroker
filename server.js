@@ -4,9 +4,7 @@ const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 const app = express()
-const mqttHandler = require('./mqtt/receiveData')
-const receiveData = new mqttHandler('senti-messagebroker')
-receiveData.connect()
+// const mqttHandler = require('./mqtt/receiveData')
 
 // API endpoint imports
 // const indexRouter = require('./api/index')

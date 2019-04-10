@@ -1,12 +1,11 @@
 const mqtt = require('mqtt');
 
 class MqttHandler {
-  constructor(topic) {
+  constructor() {
     this.mqttClient = null;
     this.host = 'mqtt://hive.senti.cloud';
     this.username = 'YOUR_USER'; // mqtt credentials if these are needed to connect
 	this.password = 'YOUR_PASSWORD';
-	this.topic = topic
   }
   init() {}
   connect() {
@@ -21,17 +20,9 @@ class MqttHandler {
 
     // Connection callback
     this.mqttClient.on('connect', () => {
-      console.log(`mqtt ${this.topic} client connected`);
+      console.log(`mqtt client connected`);
     });
 
-    // mqtt subscriptions
-	this.mqttClient.subscribe(this.topic, {qos: 0});
-	// console.log(this.topic)
-
-    // When a message arrives, console.log it
-    this.mqttClient.on('message', function (topic, message) {
-      console.log('received',message);
-    });
 
     this.mqttClient.on('close', () => {
       console.log(`mqtt client disconnected`);
