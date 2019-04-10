@@ -5,8 +5,8 @@ const { authenticate } = require('senti-apicore')
 var mqttHandler = require('../mqtt/mqtt_handler')
 var dataBrokerChannel = new mqttHandler('senti-data')
 dataBrokerChannel.connect()
-
-router.get('/:version/', async (req, res, next) => {
+const types = ['publish', 'state','config']
+router.get('/:version/:customerID/location/:location/registries/:regID/devices/:deviceID/:type', async (req, res, next) => {
 	let apiVersion = req.params.version
 
 	let authToken = req.headers.auth
@@ -23,18 +23,19 @@ router.get('/:version/', async (req, res, next) => {
 	}
 })
 
-router.post('/:version', async (req, res, next) => {
+router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceID/:type', async (req, res, next) => {
 	let apiVersion = req.params.version
 	let authToken = req.headers.auth
 	let data = req.body
+	console.log(req.url)
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
-
 			// res.json('API/httpBridge POST Access Authenticated!')
 			console.log('API/httpBridge POST Access Authenticated!')
 
 			//Send the data to DataBroker
 			dataBrokerChannel.sendMessage(`${JSON.stringify(data)}`)
+			res.status(200).json('sent')
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
 			console.log('Unauthorized Access!')
