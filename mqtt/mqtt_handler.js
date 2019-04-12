@@ -10,6 +10,7 @@ class MqttHandler {
   init() {}
   connect() {
     // Connect mqtt with credentials (in case of needed, otherwise we can omit 2nd param)
+	this.init()
     this.mqttClient = mqtt.connect(this.host, { username: this.username, password: this.password });
 
     // Mqtt error calback
@@ -27,7 +28,6 @@ class MqttHandler {
     this.mqttClient.on('close', () => {
       console.log(`mqtt client disconnected`);
 	});
-	this.init()
   }
 
   // Sends a mqtt message to topic: mytopic
