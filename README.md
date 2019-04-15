@@ -1,2 +1,2 @@
 # Senti Message Broker
-Senti Message Broker Service
+Senti Message Broker Micro Service
