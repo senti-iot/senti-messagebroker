@@ -33,7 +33,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 
 			//Send the data to DataBroker
 			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
-			res.status(200).json(true)
+			res.status(200).json()
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
 			console.log('Unauthorized Access!')
