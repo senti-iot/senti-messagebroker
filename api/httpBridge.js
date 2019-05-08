@@ -5,8 +5,11 @@ const { authenticate } = require('senti-apicore')
 var mqttHandler = require('../mqtt/mqtt_handler')
 var dataBrokerChannel = new mqttHandler('senti-data')
 dataBrokerChannel.connect()
+const logger = require('../server').logger
+
 const types = ['publish', 'state','config']
 router.get('/:version/:customerID/location/:location/registries/:regID/devices/:deviceID/:type', async (req, res, next) => {
+	logger.info("Received data from:", req.url)
 	let apiVersion = req.params.version
 
 	let authToken = req.headers.auth

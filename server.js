@@ -4,15 +4,17 @@ const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 const app = express()
-// const mqttHandler = require('./mqtt/receiveData')
+const pino = require('pino')
+const fs = require('fs')
+module.exports.logger=pino(pino.destination(`/var/log/nodejs/messagebroker/${new Date().toLocaleDateString().replace(/\//g, '-')}-others.json`))
+const logger=pino(pino.destination(`/var/log/nodejs/databroker/${new Date().toLocaleDateString().replace(/\//g, '-')}.json`))
 
-// API endpoint imports
-// const indexRouter = require('./api/index')
-// const weatherRouter = require('./api/weather')
-// const holidaysRouter = require('./api/holidays')
-// const annualRouter = require('./api/annual')
-// const apiVersionRouter = require('./api/apiversion')
-// const templateRouter = require('./api/template')
+// const mqttHandler = require('./mqtt/receiveData')
+const expressPino = require('express-pino-logger')({
+	logger: logger
+})
+app.use(expressPino)
+
 const httpBridge = require('./api/httpBridge')
 
 const port = process.env.NODE_PORT || 3001
