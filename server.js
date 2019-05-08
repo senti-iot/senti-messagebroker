@@ -6,7 +6,7 @@ const helmet = require('helmet')
 const app = express()
 const pino = require('pino')
 const fs = require('fs')
-module.exports.logger=pino(pino.destination(`/var/log/nodejs/messagebroker/${new Date().toLocaleDateString().replace(/\//g, '-')}-others.json`))
+module.exports.log=pino(pino.destination(`/var/log/nodejs/messagebroker/${new Date().toLocaleDateString().replace(/\//g, '-')}-others.json`))
 const logger=pino(pino.destination(`/var/log/nodejs/databroker/${new Date().toLocaleDateString().replace(/\//g, '-')}.json`))
 
 // const mqttHandler = require('./mqtt/receiveData')
@@ -38,7 +38,8 @@ app.use('/', httpBridge)
 
 const startAPIServer = () => {
 	app.listen(port, () => {
-		console.log('Senti Rules Engine server started on port:', port)
+		console.log('Senti Message Broker started on port:', port)
+		this.log.info(`Senti Message Broker listening on port ${port}`)
 	}).on('error', (err) => {
 		if (err.errno === 'EADDRINUSE') {
 			console.log('Server not started, port ' + port + ' is busy')
