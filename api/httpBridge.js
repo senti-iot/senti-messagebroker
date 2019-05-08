@@ -29,6 +29,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 	let apiVersion = req.params.version
 	let authToken = req.headers.auth
 	let data = req.body
+	logger.info("Received data from:", req.url)
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
 			// res.json('API/httpBridge POST Access Authenticated!')
