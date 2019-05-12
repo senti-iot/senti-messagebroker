@@ -6,14 +6,14 @@ const helmet = require('helmet')
 const app = express()
 const pino = require('pino')
 const fs = require('fs')
-module.exports.log=pino(pino.destination(`/var/log/nodejs/messagebroker/${new Date().toLocaleDateString().replace(/\//g, '-')}-others.json`))
-const logger=pino(pino.destination(`/var/log/nodejs/databroker/${new Date().toLocaleDateString().replace(/\//g, '-')}.json`))
-
+// module.exports.log=pino(pino.destination(`/var/log/nodejs/messagebroker/${new Date().toLocaleDateString().replace(/\//g, '-')}-others.json`))
+// const logger=pino(pino.destination(`/var/log/nodejs/databroker/${new Date().toLocaleDateString().replace(/\//g, '-')}.json`))
+module.exports.log = console
 // const mqttHandler = require('./mqtt/receiveData')
-const expressPino = require('express-pino-logger')({
-	logger: logger
-})
-app.use(expressPino)
+// const expressPino = require('express-pino-logger')({
+// 	logger: logger
+// })
+// app.use(expressPino)
 
 const httpBridge = require('./api/httpBridge')
 

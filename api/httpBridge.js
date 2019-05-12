@@ -25,18 +25,19 @@ router.get('/:version/:customerID/location/:location/registries/:regID/devices/:
 		res.send(`API/httpBridge version: ${apiVersion} not supported`)
 	}
 })
-router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type/', async (req, res, next) => {
+router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type/:id', async (req, res, next) => {
 	let apiVersion = req.params.version
 	let authToken = req.headers.auth
 	let data = req.body
-	req.log.info("Received data from:", req.url)
-	log.info("Received data from:", req.url)
+	// req.log.info("Received data from:", req.url)
+	// log.info("Received data from:", req.url)
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
 			// res.json('API/httpBridge POST Access Authenticated!')
 			console.log('API/httpBridge POST Access Authenticated!')
 
 			//Send the data to DataBroker
+			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
 			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
 			res.status(200).json()
 		} else {
