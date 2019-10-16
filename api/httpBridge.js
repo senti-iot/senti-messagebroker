@@ -38,8 +38,8 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 
 			//Send the data to DataBroker
 			logger({
-				msg: 'Data',
-				data: data
+				msg: 'Received data',
+				URL: req.url.substr(1, req.url.length),
 			}, 'info')
 			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data, ...req.params }))
 
@@ -71,8 +71,8 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 
 			//Send the data to DataBroker
 			logger({
-				msg: 'Data',
-				data: data
+				msg: 'Received data',
+				URL: req.url.substr(1, req.url.length),
 			}, 'info')
 			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data, ...req.params }))
 			res.status(200).json()
