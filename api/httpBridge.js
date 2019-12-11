@@ -9,24 +9,8 @@ dataBrokerChannel.connect()
 const logger = require('../logger/index').log
 
 const types = ['publish', 'state', 'config']
-// router.get('/:version/:customerID/location/:location/registries/:regID/devices/:deviceID/:type', async (req, res, next) => {
-// 	log.info("Received data from:", req.url)
-// 	let apiVersion = req.params.version
 
-// 	let authToken = req.headers.auth
-// 	if (verifyAPIVersion(apiVersion)) {
-// 		if (authenticate(authToken)) {
-// 			res.json('API/httpBridge GET Access Authenticated!')
-// 		} else {
-// 			res.status(403).json('Unauthorized Access! 403')
-// 			console.log('Unauthorized Access!')
-// 		}
-// 	} else {
-// 		console.log(`API/httpBridge version: ${apiVersion} not supported`)
-// 		res.send(`API/httpBridge version: ${apiVersion} not supported`)
-// 	}
-// })
-router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type', async (req, res, next) => {
+router.post('/:version/:customerID/location/:location/registries/:regID/:type', async (req, res, next) => {
 	let apiVersion = req.params.version
 	let authToken = req.headers.auth
 	let data = req.body
@@ -37,12 +21,8 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 			console.log('API/httpBridge POST Access Authenticated!')
 
 			//Send the data to DataBroker
-			logger({
-				msg: 'Received data',
-				URL: req.url.substr(1, req.url.length),
-			}, 'info')
-			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data, ...req.params }))
-
+			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
+			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data }))
 			res.status(200).json()
 		} else {
 			let uuid = await logger({
@@ -57,8 +37,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 		res.send(`API/httpBridge version: ${apiVersion} not supported`)
 	}
 })
-
-router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type/:id', async (req, res, next) => {
+router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type', async (req, res) => {
 	let apiVersion = req.params.version
 	let authToken = req.headers.auth
 	let data = req.body
@@ -70,46 +49,68 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 			console.log('API/httpBridge POST Access Authenticated!')
 
 			//Send the data to DataBroker
-			logger({
-				msg: 'Received data',
-				URL: req.url.substr(1, req.url.length),
-			}, 'info')
-			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data, ...req.params }))
+			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
+			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data }))
 			res.status(200).json()
 		} else {
-			let uuid = await logger({
-				msg: 'Unauthorized access atempted',
-				data: data
-			}, 'warn')
-			res.status(403).json('Unauthorized Access! 403 ' + uuid)
-			console.log('Unauthorized Access!')
-		}
-	} else {
-		console.log(`API/httpBridge version: ${apiVersion} not supported`)
-		res.send(`API/httpBridge version: ${apiVersion} not supported`)
-	}
-})
-
-router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type/:stateType', async (req, res, next) => {
-	let apiVersion = req.params.version
-	let authToken = req.headers.auth
-	let data = req.body
-	if (verifyAPIVersion(apiVersion)) {
-		if (authenticate(authToken)) {
-			// res.json('API/httpBridge POST Access Authenticated!')
-			console.log('API/httpBridge POST Access Authenticated!')
-
-			//Send the data to DataBroker
-			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data, ...req.params }))
-			res.status(200).json(true)
-		} else {
 			res.status(403).json('Unauthorized Access! 403')
-			console.log('Unauthorized Access!')
+			console.log('Unauthorized Access!', data, req.url)
 		}
 	} else {
 		console.log(`API/httpBridge version: ${apiVersion} not supported`)
 		res.send(`API/httpBridge version: ${apiVersion} not supported`)
 	}
 })
+
+// router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type/:id', async (req, res, next) => {
+// 	let apiVersion = req.params.version
+// 	let authToken = req.headers.auth
+// 	let data = req.body
+// 	// req.log.info("Received data from:", req.url)
+// 	// log.info("Received data from:", req.url)
+// 	if (verifyAPIVersion(apiVersion)) {
+// 		if (authenticate(authToken)) {
+// 			// res.json('API/httpBridge POST Access Authenticated!')
+// 			console.log('API/httpBridge POST Access Authenticated!')
+
+// 			//Send the data to DataBroker
+// 			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
+// 			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data, ...req.params }))
+// 			res.status(200).json()
+// 		} else {
+// 			let uuid = await logger({
+// 				msg: 'Unauthorized access atempted',
+// 				data: data
+// 			}, 'warn')
+// 			res.status(403).json('Unauthorized Access! 403 ' + uuid)
+// 			console.log('Unauthorized Access!')
+// 		}
+// 	} else {
+// 		console.log(`API/httpBridge version: ${apiVersion} not supported`)
+// 		res.send(`API/httpBridge version: ${apiVersion} not supported`)
+// 	}
+// })
+
+// router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type/:stateType', async (req, res, next) => {
+// 	let apiVersion = req.params.version
+// 	let authToken = req.headers.auth
+// 	let data = req.body
+// 	if (verifyAPIVersion(apiVersion)) {
+// 		if (authenticate(authToken)) {
+// 			// res.json('API/httpBridge POST Access Authenticated!')
+// 			console.log('API/httpBridge POST Access Authenticated!')
+
+// 			//Send the data to DataBroker
+// 			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data, ...req.params }))
+// 			res.status(200).json(true)
+// 		} else {
+// 			res.status(403).json('Unauthorized Access! 403')
+// 			console.log('Unauthorized Access!')
+// 		}
+// 	} else {
+// 		console.log(`API/httpBridge version: ${apiVersion} not supported`)
+// 		res.send(`API/httpBridge version: ${apiVersion} not supported`)
+// 	}
+// })
 
 module.exports = router
