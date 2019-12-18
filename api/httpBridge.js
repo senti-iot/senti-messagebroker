@@ -8,9 +8,8 @@ dataBrokerChannel.connect()
 // const log = require('../server').log
 const logger = require('../logger/index').log
 
-const types = ['publish', 'state', 'config']
 
-router.post('/:version/:customerID/location/:location/registries/:regID/:type', async (req, res, next) => {
+router.post('/:version/:customerID/location/:location/registries/:regID/:type', async (req, res) => {
 	let apiVersion = req.params.version
 	let authToken = req.headers.auth
 	let data = req.body
