@@ -1,5 +1,5 @@
 const mqtt = require('mqtt');
-
+const log = require('../logger/index').log
 class MqttHandler {
 	constructor() {
 		this.mqttClient = null;
@@ -12,11 +12,19 @@ class MqttHandler {
 
 		this.mqttClient.on('error', (err) => {
 			console.log(err);
+			log({
+				msg: 'MQTT Client failed to connect',
+				type: 'fatal'
+			})
 			this.mqttClient.end();
 		});
 
 		// Connection callback
 		this.mqttClient.on('connect', () => {
+			log({
+				msg: 'MQTT Client connected',
+				type: 'info'
+			})
 			console.log(`mqtt client connected`);
 		});
 
