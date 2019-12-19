@@ -18,7 +18,7 @@ module.exports.log = logger
 
 const httpBridge = require('./api/httpBridge')
 
-const port = process.env.NODE_PORT || 3001
+const port = process.env.NODE_PORT || 3003
 
 app.use(helmet())
 app.use(express.json())
