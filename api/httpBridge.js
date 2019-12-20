@@ -58,7 +58,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 			res.status(200).json()
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
-			console.log('Unauthorized Access!', data, req.url)
+			console.log('Unauthorized Access!', data, req.url, req.headers)
 
 		}
 	} else {
