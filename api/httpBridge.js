@@ -36,6 +36,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 	if(authToken === null) {
 		authToken = req.headers.auth
 	}
+	
 	let data = req.body
 
 	if (verifyAPIVersion(apiVersion)) {
@@ -57,6 +58,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 			console.log(req.params)
 			console.log(req.headers)
 			console.log(req.body)
+			console.log(req.data)
 		}
 	} else {
 		console.log(`API/httpBridge version: ${apiVersion} not supported`)
@@ -83,7 +85,8 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 			res.status(200).json()
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
-			console.log('Unauthorized Access!', data, req.url, req.headers)
+			console.log('Unauthorized Access!', data, req.url, req.headers, )
+			console.log(req.data)
 
 		}
 	} else {
