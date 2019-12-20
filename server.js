@@ -4,9 +4,10 @@ const express = require('express')
 const cors = require('cors')
 const helmet = require('helmet')
 const app = express()
-const pino = require('pino')
-const fs = require('fs')
+// const pino = require('pino')
+// const fs = require('fs')
 const logger = require('./logger/index').log
+const bodyParser = require('body-parser')
 // module.exports.log=pino(pino.destination(`/var/log/nodejs/messagebroker/${new Date().toLocaleDateString().replace(/\//g, '-')}-others.json`))
 // const logger=pino(pino.destination(`/var/log/nodejs/databroker/${new Date().toLocaleDateString().replace(/\//g, '-')}.json`))
 module.exports.log = logger
@@ -21,9 +22,9 @@ const httpBridge = require('./api/httpBridge')
 const port = process.env.NODE_PORT || 3003
 
 app.use(helmet())
-app.use(express.json())
-app.use(express.text())
-app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(bodyParser.text())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
 app.use(cors())
