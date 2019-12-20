@@ -58,7 +58,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 			console.log(req.params)
 			console.log(req.headers)
 			console.log(req.body)
-			console.log(req.data)
+			console.log(req.post)
 		}
 	} else {
 		console.log(`API/httpBridge version: ${apiVersion} not supported`)
@@ -86,7 +86,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
 			console.log('Unauthorized Access!', data, req.url, req.headers, )
-			console.log(req.data)
+			console.log(req.post)
 
 		}
 	} else {
