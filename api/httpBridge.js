@@ -33,12 +33,19 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 
 	let apiVersion = req.params.version
 	let authToken = parseBearerToken(req)
-	if(authToken === null) {
+	if (authToken === null) {
 		authToken = req.headers.auth
 	}
-	
-	let data = req.body
 
+	let data = req.body
+	if (typeof data === 'string') {
+		try {
+			data = JSON.parse(data)
+		}
+		catch (e) {
+			res.send('Invalid Data package').status(400)
+		}
+	}
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
 			// res.json('API/httpBridge POST Access Authenticated!')
@@ -67,10 +74,18 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type', async (req, res) => {
 	let apiVersion = req.params.version
 	let authToken = parseBearerToken(req)
-	if(authToken === null) {
+	if (authToken === null) {
 		authToken = req.headers.auth
 	}
 	let data = req.body
+	if (typeof data === 'string') {
+		try {
+			data = JSON.parse(data)
+		}
+		catch (e) {
+			res.send('Invalid Data package').status(400)
+		}
+	}
 	// req.log.info("Received data from:", req.url)
 	// log.info("Received data from:", req.url)
 	if (verifyAPIVersion(apiVersion)) {
@@ -84,7 +99,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 			res.status(200).json()
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
-			console.log('Unauthorized Access!', data, req.url, req.headers, )
+			console.log('Unauthorized Access!', data, req.url, req.headers)
 		}
 	} else {
 		console.log(`API/httpBridge version: ${apiVersion} not supported`)
