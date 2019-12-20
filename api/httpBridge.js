@@ -24,7 +24,7 @@ const parseBearerToken = (req) => {
 
 	const schema = parts.shift().toLowerCase()
 	const token = parts.join(' ')
-	if (schema !== 'bearer') {
+	if (schema !== 'bearer' && schema !== 'basic') {
 		return null
 	}
 	return token
