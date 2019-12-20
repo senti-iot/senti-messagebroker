@@ -22,6 +22,7 @@ const port = process.env.NODE_PORT || 3003
 
 app.use(helmet())
 app.use(express.json())
+app.use(express.text())
 app.use(express.urlencoded({ extended: true }))
 
 
