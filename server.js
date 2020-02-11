@@ -17,6 +17,13 @@ module.exports.log = logger
 // })
 // app.use(expressPino)
 
+//#region MQTT FOR API
+const SecureMqttHandler = require('./mqtt/SecureMqttHandler')
+const secureMqttClient = new SecureMqttHandler(process.env.MQTT_HOST, process.env.MQTT_USER, process.env.MQTT_PASS)
+secureMqttClient.connect()
+module.exports.secureMqttClient = secureMqttClient
+//#endregion
+
 const httpBridge = require('./api/httpBridge')
 
 const port = process.env.NODE_PORT || 3003
@@ -25,7 +32,6 @@ app.use(helmet())
 app.use(bodyParser.json())
 app.use(bodyParser.text())
 app.use(bodyParser.urlencoded({ extended: true }))
-
 
 app.use(cors())
 
@@ -53,8 +59,3 @@ const startAPIServer = () => {
 }
 
 startAPIServer()
-
-//#region MQTT
-
-
-//#endregion

@@ -5,6 +5,9 @@ const { authenticate } = require('senti-apicore')
 var mqttHandler = require('../mqtt/mqtt_handler')
 var dataBrokerChannel = new mqttHandler('senti-data')
 dataBrokerChannel.connect()
+
+const secureMqttClient = require('../server').secureMqttClient
+
 // const log = require('../server').log
 const logger = require('../logger/index').log
 
@@ -54,6 +57,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 			//Send the data to DataBroker
 			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
 			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify(data))
+			secureMqttClient.sendMessage(req.url.substr(1, req.url.length), JSON.stringify(data))
 			res.status(200).json()
 		} else {
 			let uuid = await logger({
@@ -96,6 +100,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 			//Send the data to DataBroker
 			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
 			dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data }))
+			secureMqttClient.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data }))
 			res.status(200).json()
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
