@@ -37,7 +37,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 	let apiVersion = req.params.version
 	let authToken = parseBearerToken(req)
 	if (authToken === null) {
-		authToken = req.headers.auth
+		authToken = (req.headers.auth) ? req.headers.auth : req.headers.authorization
 	}
 
 	let data = req.body
@@ -79,7 +79,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 	let apiVersion = req.params.version
 	let authToken = parseBearerToken(req)
 	if (authToken === null) {
-		authToken = req.headers.auth
+		authToken = (req.headers.auth) ? req.headers.auth : req.headers.authorization
 	}
 	let data = req.body
 	if (typeof data === 'string') {
