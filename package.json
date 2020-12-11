@@ -4,7 +4,9 @@
 	"deprecated": false,
 	"description": "Senti Message Broker service",
 	"main": "server.js",
-	"scripts": {},
+	"scripts": {
+		"test": "echo \"npm test temporarily disabled\""
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/senti-iot/senti-messagebroker.git"
@@ -42,6 +44,6 @@
 		"mqtt": "^2.18.8",
 		"mqtt-packet": "^6.3.0",
 		"pino": "^5.15.0",
-		"senti-apicore": "0.0.17"
+		"senti-apicore": "0.0.53"
 	}
 }
