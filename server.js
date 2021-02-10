@@ -24,6 +24,8 @@ secureMqttClient.connect()
 module.exports.secureMqttClient = secureMqttClient
 //#endregion
 
+const ttnApi = require('./api/ttn')
+const comadanApi = require('./api/comadan')
 const httpBridge = require('./api/httpBridge')
 
 const port = process.env.NODE_PORT || 3003
@@ -41,7 +43,7 @@ app.use(cors())
 // app.use('/annual', annualRouter)
 // app.use('/apiversion', apiVersionRouter)
 // app.use('/template', templateRouter)
-app.use('/', httpBridge)
+app.use('/', ttnApi, comadanApi, httpBridge)
 //---Start the express server---------------------------------------------------
 
 
