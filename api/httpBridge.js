@@ -33,7 +33,7 @@ const parseBearerToken = (req) => {
 	return token
 }
 
-router.post('/:version/:customerID/location/:location/registries/:regID/:type', async (req, res, next) => {
+router.post('/:version/:customerID/location/:location/registries/:regID/:type', async (req, res) => {
 	let apiVersion = req.params.version
 	let authToken = parseBearerToken(req)
 	if (authToken === null) {
@@ -41,7 +41,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 	}
 
 	let data = req.body
-	console.log('Before 400', req.path, data)
+	// console.log('Before 400', req.path, data)
 	if (typeof data === 'string') {
 		try {
 			data = JSON.parse(data)
