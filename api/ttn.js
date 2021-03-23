@@ -37,6 +37,7 @@ router.post('/v1/ttn-application', async (req, res, next) => {
 			data = JSON.parse(data)
 		}
 		catch (e) {
+			console.log('ttn Invalid Data package', req.body)
 			res.send('Invalid Data package').status(400)
 		}
 	}
@@ -73,6 +74,7 @@ router.post('/v1/ttn-application-v3', async (req, res, next) => {
 			data = JSON.parse(data)
 		}
 		catch (e) {
+			console.log('ttn v3 Invalid Data package', req.body)
 			res.send('Invalid Data package').status(400)
 		}
 	}

@@ -13,6 +13,7 @@ router.post('/v1/comadan-application', async (req, res, next) => {
 			data = JSON.parse(data)
 		}
 		catch (e) {
+			console.log('Comadan Invalid Data package', req.body)
 			res.send('Invalid Data package').status(400)
 		}
 	}
