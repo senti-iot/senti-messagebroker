@@ -19,7 +19,7 @@ const app = express()
 //#region MQTT FOR API
 const SecureMqttHandler = require('./mqtt/SecureMqttHandler')
 const secureMqttClient = new SecureMqttHandler(process.env.MQTT_HOST, process.env.MQTT_USER, process.env.MQTT_PASS)
-secureMqttClient.connect()
+// secureMqttClient.connect()
 module.exports.secureMqttClient = secureMqttClient
 //#endregion
 
@@ -31,8 +31,25 @@ const routeLogger = require('./api/routeLogger')
 const port = process.env.NODE_PORT || 3003
 
 app.use(helmet())
-app.use(express.json())
-app.use(express.text())
+app.use((error, req, res, next) => {
+	let err = false
+	try {
+		let data = JSON.parse(req.body)
+		console.log('JSON')
+	} catch (error) {
+		err = true
+		console.log('Not JSON')
+		console.log('Error', error)
+	}
+	if (err) {
+		return express.text()
+	}
+	else {
+		return express.json()
+	}
+})
+	// return express.json() : express.text())
+// app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(cors())
@@ -43,8 +60,14 @@ app.use(cors())
 // app.use('/annual', annualRouter)
 // app.use('/apiversion', apiVersionRouter)
 // app.use('/template', templateRouter)
-app.use([routeLogger])
+app.use(routeLogger)
 app.use('/', ttnApi, comadanApi, httpBridge)
+app.use(function (err, req, res, next) {
+	console.error(err.stack)
+	console.log(req.path)
+	console.log(JSON.stringify(req.body))
+	res.status(500).send(req.body)
+})
 //---Start the express server---------------------------------------------------
 
 
@@ -52,13 +75,19 @@ const startAPIServer = () => {
 	app.listen(port, () => {
 		console.log('Senti Message Broker started on port:', port)
 		// logger(`Senti Message Broker listening on port ${port}`, 'info')
-	}).on('error', (err) => {
+	}).on('error', (err, req, res, next) => {
+		console.log(err, req, res, next)
 		if (err.errno === 'EADDRINUSE') {
 			console.log('Server not started, port ' + port + ' is busy')
 		} else {
-			console.log(err)
+			console.log(err, req.path)
 		}
 	})
 }
+try {
 
-startAPIServer()
+	startAPIServer()
+}
+catch {
+	console.log('error is here')
+}
