@@ -88,6 +88,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 			data = JSON.parse(data)
 		}
 		catch (e) {
+			console.log('Invalid Data package', req.body)
 			res.send('Invalid Data package').status(400)
 		}
 	}
