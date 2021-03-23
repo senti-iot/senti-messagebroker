@@ -32,8 +32,8 @@ const port = process.env.NODE_PORT || 3003
 
 app.use(helmet())
 
+app.use(express.json())
 app.use(express.text())
-// app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.use(cors())
@@ -53,12 +53,11 @@ const startAPIServer = () => {
 	app.listen(port, () => {
 		console.log('Senti Message Broker started on port:', port)
 		// logger(`Senti Message Broker listening on port ${port}`, 'info')
-	}).on('error', (err, req, res, next) => {
-		console.log(err, req, res, next)
+	}).on('error', (err) => {
 		if (err.errno === 'EADDRINUSE') {
 			console.log('Server not started, port ' + port + ' is busy')
 		} else {
-			console.log(err, req.path)
+			console.log(err)
 		}
 	})
 }
