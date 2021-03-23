@@ -31,25 +31,8 @@ const routeLogger = require('./api/routeLogger')
 const port = process.env.NODE_PORT || 3003
 
 app.use(helmet())
-app.use((error, req, res, next) => {
-	let err = false
-	try {
-		let data = JSON.parse(req.body)
-		console.log('JSON')
-	} catch (error) {
-		err = true
-		console.log('Not JSON')
-		console.log('Error', error)
-	}
-	if (err) {
-		return express.text()
-	}
-	else {
-		return express.json()
-	}
-})
-// app.use(express.text())
-	// return express.json() : express.text())
+
+app.use(express.text())
 // app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
@@ -63,12 +46,6 @@ app.use(cors())
 // app.use('/template', templateRouter)
 app.use(routeLogger)
 app.use('/', ttnApi, comadanApi, httpBridge)
-app.use(function (err, req, res, next) {
-	console.error(err.stack)
-	console.log(req.path)
-	console.log(JSON.stringify(req.body))
-	res.status(500).send(req.body)
-})
 //---Start the express server---------------------------------------------------
 
 
