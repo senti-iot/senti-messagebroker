@@ -41,6 +41,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 	}
 
 	let data = req.body
+	console.log('Before 400', data)
 	if (typeof data === 'string') {
 		try {
 			data = JSON.parse(data)
@@ -53,7 +54,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
 			// res.json('API/httpBridge POST Access Authenticated!')
-			console.log('API/httpBridge POST Access Authenticated!')
+			//console.log('API/httpBridge POST Access Authenticated!')
 
 			//Send the data to DataBroker
 			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
@@ -97,7 +98,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/devices/
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
 			// res.json('API/httpBridge POST Access Authenticated!')
-			console.log('API/httpBridge POST Access Authenticated!')
+			//console.log('API/httpBridge POST Access Authenticated!')
 
 			//Send the data to DataBroker
 			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
