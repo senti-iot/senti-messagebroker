@@ -19,7 +19,7 @@ const app = express()
 //#region MQTT FOR API
 const SecureMqttHandler = require('./mqtt/SecureMqttHandler')
 const secureMqttClient = new SecureMqttHandler(process.env.MQTT_HOST, process.env.MQTT_USER, process.env.MQTT_PASS)
-secureMqttClient.connect()
+// secureMqttClient.connect()
 module.exports.secureMqttClient = secureMqttClient
 //#endregion
 
@@ -84,5 +84,10 @@ const startAPIServer = () => {
 		}
 	})
 }
+try {
 
-startAPIServer()
+	startAPIServer()
+}
+catch {
+	console.log('error is here')
+}
