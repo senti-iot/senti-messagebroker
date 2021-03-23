@@ -46,6 +46,12 @@ app.use(cors())
 // app.use('/template', templateRouter)
 app.use(routeLogger)
 app.use('/', ttnApi, comadanApi, httpBridge)
+app.use(function (err, req, res, next) {
+	console.error(err.stack)
+	console.log('Headers:', req.headers)
+	console.log(req)
+	res.status(500).send(err.stack)
+})
 //---Start the express server---------------------------------------------------
 
 
