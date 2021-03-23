@@ -44,6 +44,6 @@
 		"mqtt": "^2.18.8",
 		"mqtt-packet": "^6.3.0",
 		"pino": "^5.15.0",
-		"senti-apicore": "0.0.53"
+		"senti-apicore": "0.0.55"
 	}
 }
