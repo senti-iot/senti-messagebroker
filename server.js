@@ -32,17 +32,23 @@ const port = process.env.NODE_PORT || 3003
 
 app.use(helmet())
 
-app.use(express.json({
-	verify: (req, res, buf, encoding) => {
-		try {
-			console.log(buf.toString())
-		}
-		catch {
-			console.log('Buffer not valid')
-		}
 
-	}
-	}))
+/**
+ * For debugging bad request bodies
+ *
+ */
+// app.use(express.json({
+// 	verify: (req, res, buf, encoding) => {
+// 		try {
+// 			console.log(buf.toString())
+// 		}
+// 		catch {
+// 			console.log('Buffer not valid')
+// 		}
+
+// 	}
+// }))
+app.use(express.json())
 app.use(express.text())
 app.use(express.urlencoded({ extended: true }))
 
@@ -58,9 +64,8 @@ app.use(routeLogger)
 app.use('/', ttnApi, comadanApi, httpBridge)
 app.use(function (err, req, res, next) {
 	console.error(err.stack)
-	console.log('Headers:', req.headers)
 	// console.log(req)
-	res.status(500).send(err.stack)
+	res.status(500).send('Something broke...')
 })
 //---Start the express server---------------------------------------------------
 
