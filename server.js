@@ -43,8 +43,8 @@ app.use(cors())
 // app.use('/annual', annualRouter)
 // app.use('/apiversion', apiVersionRouter)
 // app.use('/template', templateRouter)
-app.use('/', ttnApi, comadanApi, httpBridge)
 app.use([routeLogger])
+app.use('/', ttnApi, comadanApi, httpBridge)
 //---Start the express server---------------------------------------------------
 
 
