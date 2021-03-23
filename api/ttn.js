@@ -2,16 +2,7 @@ const express = require('express')
 const router = express.Router()
 const verifyAPIVersion = require('senti-apicore').verifyapiversion
 const { authenticate } = require('senti-apicore')
-// var mqttHandler = require('../mqtt/mqtt_handler')
-// var dataBrokerChannel = new mqttHandler('senti-data')
-// dataBrokerChannel.connect()
-
 const secureMqttClient = require('../server').secureMqttClient
-
-// const log = require('../server').log
-const logger = require('../logger/index').log
-
-const types = ['publish', 'state', 'config']
 
 const parseBearerToken = (req) => {
 	const auth = req.headers ? req.headers.authorization || null : null
@@ -33,41 +24,33 @@ const parseBearerToken = (req) => {
 	return token
 }
 
-router.post('/:version/:customerID/location/:location/registries/:regID/:type', async (req, res, next) => {
-	let apiVersion = req.params.version
+router.post('/v1/ttn-application', async (req, res, next) => {
+	let apiVersion = 'v1'
 	let authToken = parseBearerToken(req)
 	if (authToken === null) {
 		authToken = (req.headers.auth) ? req.headers.auth : req.query.auth
 	}
 
 	let data = req.body
-	console.log('Before 400', req.path, data)
 	if (typeof data === 'string') {
 		try {
 			data = JSON.parse(data)
 		}
 		catch (e) {
-			console.log('Invalid Data package', req.body)
+			console.log('ttn Invalid Data package', req.body)
 			res.send('Invalid Data package').status(400)
 		}
 	}
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
 			// res.json('API/httpBridge POST Access Authenticated!')
-			//console.log('API/httpBridge POST Access Authenticated!')
-
+			console.log('API/httpBridge POST Access Authenticated!')
 			//Send the data to DataBroker
-			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
-			//dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify(data))
 			secureMqttClient.sendMessage(req.path.substr(1, req.path.length), JSON.stringify(data))
 			res.status(200).json()
 		} else {
-			let uuid = await logger({
-				msg: 'Unauthorized access atempted',
-				data: data
-			}, 'warn')
-			res.status(403).json('Unauthorized Access! 403 ' + uuid)
-			console.log('Unauthorized Access!')
+			res.status(403).json('Unauthorized Access! 403')
+			console.log('TTN Unauthorized Access!')
 			console.log(req.params)
 			console.log(req.headers)
 			console.log(req.body)
@@ -77,44 +60,41 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 		res.send(`API/httpBridge version: ${apiVersion} not supported`)
 	}
 })
-router.post('/:version/:customerID/location/:location/registries/:regID/devices/:deviceName/:type', async (req, res) => {
-	let apiVersion = req.params.version
+
+router.post('/v1/ttn-application-v3', async (req, res, next) => {
+	let apiVersion = 'v1'
 	let authToken = parseBearerToken(req)
 	if (authToken === null) {
 		authToken = (req.headers.auth) ? req.headers.auth : req.query.auth
 	}
+
 	let data = req.body
 	if (typeof data === 'string') {
 		try {
 			data = JSON.parse(data)
 		}
 		catch (e) {
-			console.log('Invalid Data package', req.body)
+			console.log('ttn v3 Invalid Data package', req.body)
 			res.send('Invalid Data package').status(400)
 		}
 	}
-	// req.log.info("Received data from:", req.url)
-	// log.info("Received data from:", req.url)
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
 			// res.json('API/httpBridge POST Access Authenticated!')
-			//console.log('API/httpBridge POST Access Authenticated!')
-
+			console.log('API/httpBridge POST Access Authenticated!')
 			//Send the data to DataBroker
-			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
-			// dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify({ ...data }))
-			secureMqttClient.sendMessage(req.path.substr(1, req.path.length), JSON.stringify({ ...data }))
+			secureMqttClient.sendMessage(req.path.substr(1, req.path.length), JSON.stringify(data))
 			res.status(200).json()
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
-			console.log('Unauthorized Access!', data, req.url, req.headers)
+			console.log('TTN Unauthorized Access!')
+			console.log(req.params)
+			console.log(req.headers)
+			console.log(req.body)
 		}
 	} else {
 		console.log(`API/httpBridge version: ${apiVersion} not supported`)
 		res.send(`API/httpBridge version: ${apiVersion} not supported`)
 	}
 })
-
-
-
 module.exports = router
