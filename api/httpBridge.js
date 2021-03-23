@@ -41,7 +41,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 	}
 
 	let data = req.body
-	console.log('Before 400', data)
+	console.log('Before 400', req.path, data)
 	if (typeof data === 'string') {
 		try {
 			data = JSON.parse(data)
