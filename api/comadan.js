@@ -20,6 +20,8 @@ router.post('/v1/comadan-application', async (req, res, next) => {
 	if (verifyAPIVersion(apiVersion)) {
 		if (authenticate(authToken)) {
 			//Send the data to DataBroker
+			console.log('/v1/comadan-application ok')
+			console.log(data)
 			secureMqttClient.sendMessage(req.path.substr(1, req.path.length), JSON.stringify(data))
 			res.status(200).json()
 		} else {
