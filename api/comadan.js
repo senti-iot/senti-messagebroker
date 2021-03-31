@@ -23,7 +23,14 @@ router.post('/v1/comadan-application', async (req, res, next) => {
 			console.log('/v1/comadan-application ok')
 			console.log(data)
 			secureMqttClient.sendMessage(req.path.substr(1, req.path.length), JSON.stringify(data))
-			res.status(200).json()
+			let result = ""
+			if (data.recv === true) {
+				let deviceMetaData = {
+					"comaConfig": "{\"height\": 120, \"shape\": 2.5, \"flow\": 60, \"cfaktor\": 1.1}"
+				}
+				result = JSON.parse(deviceMetaData.comaConfig)
+			}
+			res.status(200).json(result)
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
 			console.log('Comadan Unauthorized Access!')
