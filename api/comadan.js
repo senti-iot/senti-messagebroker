@@ -4,8 +4,10 @@ const verifyAPIVersion = require('senti-apicore').verifyapiversion
 const { authenticate } = require('senti-apicore')
 const secureMqttClient = require('../server').secureMqttClient
 
+
 router.post('/v1/comadan-application', async (req, res, next) => {
 	let apiVersion = 'v1'
+	console.log('comadan-application.bytesRead', req.socket.bytesRead)
 	authToken = (req.headers.auth) ? req.headers.auth : req.query.auth
 	let data = req.body
 	if (typeof data === 'string') {
@@ -23,14 +25,7 @@ router.post('/v1/comadan-application', async (req, res, next) => {
 			console.log('/v1/comadan-application ok')
 			console.log(data)
 			secureMqttClient.sendMessage(req.path.substr(1, req.path.length), JSON.stringify(data))
-			let result = ""
-			if (data.recv === true) {
-				let deviceMetaData = {
-					"comaConfig": "{\"height\": 120, \"shape\": 2.5, \"flow\": 60, \"cfaktor\": 1.1}"
-				}
-				result = JSON.parse(deviceMetaData.comaConfig)
-			}
-			res.status(200).json(result)
+			res.status(200).json()
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
 			console.log('Comadan Unauthorized Access!')
