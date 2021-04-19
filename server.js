@@ -1,8 +1,8 @@
 #!/usr/bin/env nodejs
 const dotenv = require('dotenv').load()
 const express = require('express')
-const cors = require('cors')
-const helmet = require('helmet')
+// const cors = require('cors')
+// const helmet = require('helmet')
 const app = express()
 // const pino = require('pino')
 // const fs = require('fs')
@@ -26,11 +26,11 @@ module.exports.secureMqttClient = secureMqttClient
 const ttnApi = require('./api/ttn')
 const comadanApi = require('./api/comadan')
 const httpBridge = require('./api/httpBridge')
-const routeLogger = require('./api/routeLogger')
+// const routeLogger = require('./api/routeLogger')
 
 const port = process.env.NODE_PORT || 3003
 
-app.use(helmet())
+// app.use(helmet())
 
 
 /**
@@ -52,7 +52,7 @@ app.use(express.json())
 app.use(express.text())
 app.use(express.urlencoded({ extended: true }))
 
-app.use(cors())
+// app.use(cors())
 
 // app.use('/', indexRouter)
 // app.use('/weather', weatherRouter)
@@ -60,7 +60,7 @@ app.use(cors())
 // app.use('/annual', annualRouter)
 // app.use('/apiversion', apiVersionRouter)
 // app.use('/template', templateRouter)
-app.use(routeLogger)
+// app.use(routeLogger)
 app.use('/', ttnApi, comadanApi, httpBridge)
 app.use(function (err, req, res, next) {
 	console.error(err.stack)
