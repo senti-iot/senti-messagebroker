@@ -34,7 +34,7 @@ router.post('/v1/comadan-application', async (req, res, next) => {
 				let rs = await mysqlConn.query(select, [data.ID])
 				console.log(rs[0])
 				if (rs[0].length === 1) {
-					result = JSON.parse(rs[0][0].metadata.comaConfig)
+					result = JSON.parse(rs[0][0].metadata)
 				}
 			}
 			res.status(200).json(result)
