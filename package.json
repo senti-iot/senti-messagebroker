@@ -43,6 +43,7 @@
 		"moment": "^2.22.2",
 		"mqtt": "^2.18.8",
 		"mqtt-packet": "^6.3.0",
+		"mysql2": "^2.2.5",
 		"pino": "^5.15.0",
 		"senti-apicore": "0.0.55"
 	}
