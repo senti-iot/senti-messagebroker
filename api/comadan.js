@@ -32,9 +32,9 @@ router.post('/v1/comadan-application', async (req, res, next) => {
 								FROM device d
 								WHERE d.uuname = ? AND d.deleted = 0;`
 				let rs = await mysqlConn.query(select, [data.ID])
-				console.log(rs[0])
+				console.log(rs[0][0].metadata)
 				if (rs[0].length === 1) {
-					result = JSON.parse(rs[0][0].metadata)
+					result = rs[0][0].metadata
 				}
 			}
 			res.status(200).json(result)
