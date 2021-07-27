@@ -38,6 +38,7 @@ router.post('/v1/comadan-application', async (req, res, next) => {
 				}
 			}
 			res.status(200).json(result)
+			console.log('comadan-application.bytesWritten', req.socket.bytesWritten)
 		} else {
 			res.status(403).json('Unauthorized Access! 403')
 			console.log('Comadan Unauthorized Access!')
