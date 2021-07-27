@@ -58,6 +58,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 
 			//Send the data to DataBroker
 			console.log(req.url.substr(1, req.url.length),JSON.stringify(data))
+			console.log(req.headers)
 			//dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify(data))
 			secureMqttClient.sendMessage(req.path.substr(1, req.path.length), JSON.stringify(data))
 			res.status(200).json()
