@@ -51,4 +51,48 @@ router.post('/v1/comadan-application', async (req, res, next) => {
 		res.send(`API/httpBridge version: ${apiVersion} not supported`)
 	}
 })
+router.post('/v1/comadan-ble-application', async (req, res, next) => {
+	let apiVersion = 'v1'
+	authToken = (req.headers.auth) ? req.headers.auth : req.query.auth
+	let data = req.body
+	if (typeof data === 'string') {
+		try {
+			data = JSON.parse(data)
+		}
+		catch (e) {
+			console.log('Comadan Invalid Data package', req.body)
+			res.send('Invalid Data package').status(400)
+		}
+	}
+	if (verifyAPIVersion(apiVersion)) {
+		if (authenticate(authToken)) {
+			//Send the data to DataBroker
+			console.log('/v1/comadan-ble-application ok')
+			console.log(data)
+			if (data.devices.length > 0) {
+				data.devices.map(packet => {
+					let myData = {
+						ID: "COMA-" + packet.mac,
+						TYPE: "COMA-" + data.route_mac,
+						message: packet.data
+					}
+					console.log(myData)
+					secureMqttClient.sendMessage('v1/comadan-application', JSON.stringify(myData))	
+				})
+				res.status(200).json()
+			} else {
+				res.send('Invalid Data package').status(400)
+			}
+		} else {
+			res.status(403).json('Unauthorized Access! 403')
+			console.log('Comadan Unauthorized Access!')
+			console.log(req.params)
+			console.log(req.headers)
+			console.log(req.body)
+		}
+	} else {
+		console.log(`API/httpBridge version: ${apiVersion} not supported`)
+		res.send(`API/httpBridge version: ${apiVersion} not supported`)
+	}
+})
 module.exports = router
