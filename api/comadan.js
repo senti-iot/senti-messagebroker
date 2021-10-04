@@ -68,7 +68,7 @@ router.post('/v1/comadan-ble-application', async (req, res, next) => {
 		if (authenticate(authToken)) {
 			//Send the data to DataBroker
 			console.log('/v1/comadan-ble-application ok')
-			console.log(data, data.data)
+			console.log(data, data.data.length)
 			if (data.data.length > 0) {
 				data.data.map(packet => {
 					let myPacket = packet.split(',')
