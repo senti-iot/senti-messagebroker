@@ -69,15 +69,20 @@ router.post('/v1/comadan-ble-application', async (req, res, next) => {
 			//Send the data to DataBroker
 			console.log('/v1/comadan-ble-application ok')
 			console.log(data)
-			if (data.devices.length > 0) {
-				data.devices.map(packet => {
-					let myData = {
-						ID: "COMA-" + packet.mac,
-						TYPE: "COMA-" + data.route_mac,
-						message: packet.data
+			if (data.data.length > 0) {
+				data.data.map(packet => {
+					let myPacket = packet.split(',')
+					if (myPacket.length === 5) {
+						let myData = {
+							ID: "COMA-" + myPacket[1],
+							TYPE: "COMA-" + myPacket[2],
+							message: myPacket[4],
+							gwTimeStamp: myPacket[5],
+							gwSignal: myPacket[3]
+						}
+						console.log(myData)
+						secureMqttClient.sendMessage('v1/comadan-application', JSON.stringify(myData))	
 					}
-					console.log(myData)
-					secureMqttClient.sendMessage('v1/comadan-application', JSON.stringify(myData))	
 				})
 				res.status(200).json()
 			} else {
