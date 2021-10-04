@@ -76,7 +76,7 @@ router.post('/v1/comadan-ble-application', async (req, res, next) => {
 					if (myPacket.length === 6) {
 						let myData = {
 							ID: "COMA-" + myPacket[1],
-							TYPE: "COMA-" + myPacket[2],
+							TYPE: myPacket[2],
 							message: myPacket[4],
 							gwTimeStamp: myPacket[5],
 							gwSignal: myPacket[3]
