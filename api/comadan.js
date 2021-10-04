@@ -72,6 +72,7 @@ router.post('/v1/comadan-ble-application', async (req, res, next) => {
 			if (data.data.length > 0) {
 				data.data.map(packet => {
 					let myPacket = packet.split(',')
+					console.log(packet, myPacket)
 					if (myPacket.length === 5) {
 						let myData = {
 							ID: "COMA-" + myPacket[1],
