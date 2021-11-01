@@ -25,6 +25,7 @@ module.exports.secureMqttClient = secureMqttClient
 
 const ttnApi = require('./api/ttn')
 const comadanApi = require('./api/comadan')
+const sigfoxApi = require('./api/sigfox')
 const httpBridge = require('./api/httpBridge')
 // const routeLogger = require('./api/routeLogger')
 
@@ -61,7 +62,7 @@ app.use(express.urlencoded({ extended: true }))
 // app.use('/apiversion', apiVersionRouter)
 // app.use('/template', templateRouter)
 // app.use(routeLogger)
-app.use('/', ttnApi, comadanApi, httpBridge)
+app.use('/', ttnApi, comadanApi, sigfoxApi, httpBridge)
 app.use(function (err, req, res, next) {
 	console.error(err.stack)
 	// console.log(req)
