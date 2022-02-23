@@ -41,9 +41,10 @@
 		"find-config": "^1.0.0",
 		"helmet": "^3.21.2",
 		"moment": "^2.22.2",
-		"mqtt": "^2.18.8",
+		"mqtt": "^4.3.6",
 		"mqtt-packet": "^6.3.0",
+		"mysql2": "^2.2.5",
 		"pino": "^5.15.0",
-		"senti-apicore": "0.0.55"
+		"senti-apicore": "^0.0.61"
 	}
 }

@@ -33,7 +33,7 @@ const parseBearerToken = (req) => {
 	return token
 }
 
-router.post('/:version/:customerID/location/:location/registries/:regID/:type', async (req, res, next) => {
+router.post('/:version/:customerID/location/:location/registries/:regID/:type', async (req, res) => {
 	let apiVersion = req.params.version
 	let authToken = parseBearerToken(req)
 	if (authToken === null) {
@@ -41,7 +41,7 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 	}
 
 	let data = req.body
-	console.log('Before 400', req.path, data)
+	// console.log('Before 400', req.path, data)
 	if (typeof data === 'string') {
 		try {
 			data = JSON.parse(data)
@@ -57,7 +57,8 @@ router.post('/:version/:customerID/location/:location/registries/:regID/:type', 
 			//console.log('API/httpBridge POST Access Authenticated!')
 
 			//Send the data to DataBroker
-			// console.log(req.url.substr(1, req.url.length),JSON.stringify({...data, ...req.params }))
+			// console.log(req.url.substr(1, req.url.length),JSON.stringify(data))
+			// console.log(req.headers)
 			//dataBrokerChannel.sendMessage(req.url.substr(1, req.url.length), JSON.stringify(data))
 			secureMqttClient.sendMessage(req.path.substr(1, req.path.length), JSON.stringify(data))
 			res.status(200).json()
