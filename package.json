@@ -40,7 +40,7 @@
 		"express-pino-logger": "^4.0.0",
 		"find-config": "^1.0.0",
 		"helmet": "^3.21.2",
-		"moment": "^2.22.2",
+		"moment": "^2.29.4",
 		"mqtt": "^4.3.6",
 		"mqtt-packet": "^6.3.0",
 		"mysql2": "^2.2.5",
