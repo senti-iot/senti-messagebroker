@@ -26,12 +26,6 @@ secureMqttClient.connect()
 module.exports.secureMqttClient = secureMqttClient
 //#endregion
 
-const ttnApi = require('./api/ttn')
-const comadanApi = require('./api/comadan')
-const sigfoxApi = require('./api/sigfox')
-const httpBridge = require('./api/httpBridge')
-// const routeLogger = require('./api/routeLogger')
-
 const port = process.env.NODE_PORT || 3003
 
 // app.use(helmet())
@@ -56,16 +50,16 @@ app.use(express.json())
 app.use(express.text())
 app.use(express.urlencoded({ extended: true }))
 
-// app.use(cors())
 
-// app.use('/', indexRouter)
-// app.use('/weather', weatherRouter)
-// app.use('/holidays', holidaysRouter)
-// app.use('/annual', annualRouter)
-// app.use('/apiversion', apiVersionRouter)
-// app.use('/template', templateRouter)
-// app.use(routeLogger)
-app.use('/', ttnApi, comadanApi, sigfoxApi, httpBridge)
+const prefixHandler = require('./api/prefixHandler')
+const ttnApi = require('./api/ttn')
+const comadanApi = require('./api/comadan')
+const sigfoxApi = require('./api/sigfox')
+const httpBridge = require('./api/httpBridge')
+// const routeLogger = require('./api/routeLogger')
+
+
+app.use('/', prefixHandler, ttnApi, comadanApi, sigfoxApi, httpBridge)
 app.use(function (err, req, res, next) {
 	console.error(err.stack)
 	// console.log(req)
